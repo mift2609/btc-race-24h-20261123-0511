@@ -3,7 +3,7 @@
 
 Strategy (all decisions on 1-minute bar closes, fills land at the next open):
   * Enter long with the full cash balance when the market shows a real
-    breakout: the 60-minute return is at least +1.2%, the 15-minute return
+    breakout: the 60-minute return is at least +0.6%, the 15-minute return
     is also positive (momentum alignment), and the close sits above its
     90-bar average (trend filter). A 60-bar cooldown after every full exit
     keeps the bot out of whipsaw chop.
@@ -28,7 +28,11 @@ SYMBOL = "CBBTC"
 # --- strategy parameters (round, robust numbers; tuned lightly on the dev
 # window, checked on both halves and on a mirrored falling window) ---
 LOOKBACK = 60          # minutes for the breakout return
-ENTRY_RET = 0.012      # +1.2% over LOOKBACK to enter
+ENTRY_RET = 0.006      # +0.6% over LOOKBACK to enter: the replay showed the
+                       # +1.2% bar entered the dev window's only real move
+                       # 113 bars late (bar 204 vs 91, $59,873 vs $59,177);
+                       # +0.6% still fires exactly once on the dev window,
+                       # so no whipsaw is added
 ALIGN_N = 15           # short window that must also be rising
 TREND_N = 90           # close must be above this average
 TAKE_HALF = 0.020      # bank half the position at +2.0%

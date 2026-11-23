@@ -25,8 +25,8 @@ network, no files. Every decision comes from the bars the harness sends.
   -2.0% from the entry cost caps every losing trade.
 - **No cross-down or time-based exit**: on 1-minute bars those only churn
   fees (about 26 bps a round trip).
-- **In a falling market the breakout rule simply never fires**, so the bot
-  holds cash and loses nothing. On a race window that falls, losing the
+- **In a falling market the breakout rule rarely fires**; when it does,
+  the −2% hard stop caps the loss (mirror test: 1 trade, −$12.74). On a race window that falls, losing the
   least is what wins.
 
 ## Local result (dev window, 1,440 one-minute bars)
@@ -34,14 +34,15 @@ network, no files. Every decision comes from the bars the harness sends.
 Verified with a protocol-level replay implementing the harness's exact
 integer fill model (4 bps fee, 2 bps slippage, constant-product impact):
 
-- Net PnL: **+$19.75** (passes the dev gate: above $0)
+- Net PnL: **+$25.96** (passes the dev gate: above $0)
 - Trades: 2 (one entry, one half-take; the rest flattened at the close)
 - Max drawdown: 1.18%
 - Two runs produce byte-identical action logs (deterministic)
 
 The same strategy was also checked on each 12-hour half of the dev
-window and on a mirrored falling window, where it makes 0 trades and
-loses $0.00 — it only trades when a real uptrend is present.
+window and on a mirrored falling window, where it makes 1 trade and
+loses $12.74, with a max drawdown of 2.15% (capped by the −2% hard
+stop).
 
 ## Run it
 
